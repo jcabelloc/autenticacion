@@ -32,6 +32,9 @@
                 <li class="main-header__item">
                     <a class="<%= path === '/ingresar' ? 'active' : '' %>" href="/ingresar">Ingresar</a>
                 </li>
+                <li class="main-header__item">
+                    <a class="<%= path === '/registrarse' ? 'active' : '' %>" href="/registrarse">Registrarse</a>
+                </li>
             <% } else { %>
                 <li class="main-header__item">
                     <form action="/salir" method="post">
@@ -70,6 +73,9 @@
             <% if (!autenticado) { %>
                 <li class="mobile-nav__item">
                     <a class="<%= path === '/ingresar' ? 'active' : '' %>" href="/ingresar">Ingresar</a>
+                </li>
+                <li class="mobile-nav__item">
+                    <a class="<%= path === '/registrarse' ? 'active' : '' %>" href="/registrarse">Registrarse</a>
                 </li>
             <% } else { %>
                 <li class="mobile-nav__item">

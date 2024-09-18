@@ -23,6 +23,39 @@ exports.postIngresar = (req, res, next) => {
     .catch(err => console.log(err));
 };
 
+exports.getRegistrarse = (req, res, next) => {
+  res.render('auth/registrarse', {
+    path: '/registrarse',
+    titulo: 'Registrarse',
+    autenticado: false
+  });
+};
+
+exports.postRegistrarse = (req, res, next) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  const passwordConfirmado = req.body.passwordConfirmado;
+  Usuario.findOne({ email: email })
+    .then(usuarioDoc => {
+      if (usuarioDoc) {
+        return res.redirect('/registrarse');
+      }
+      const usuario = new Usuario({
+        email: email,
+        password: password,
+        carrito: { items: [] }
+      });
+      return usuario.save();
+    })
+    .then(result => {
+      res.redirect('/ingresar');
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+
 exports.postSalir = (req, res, next) => {
   req.session.destroy(err => {
     console.log(err);

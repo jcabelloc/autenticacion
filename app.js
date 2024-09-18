@@ -54,18 +54,6 @@ app.use(errorController.get404);
 mongoose
   .connect(MONGODB_URI)
   .then(result => {
-    Usuario.findOne().then(usuario => {
-      if (!usuario) {
-        const usuario = new Usuario({
-          nombre: 'Juan',
-          email: 'juan@gmail.com',
-          carrito: {
-            items: []
-          }
-        });
-        usuario.save();
-      }
-    });
     app.listen(3000);
   })
   .catch(err => {
