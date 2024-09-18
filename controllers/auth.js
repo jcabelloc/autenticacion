@@ -4,11 +4,17 @@ const Usuario = require("../models/usuario");
 
 
 exports.getIngresar = (req, res, next) => {
-  console.log(req.session.autenticado);
+  let mensaje = req.flash('error');
+  if (mensaje.length > 0) {
+    mensaje = mensaje[0];
+  } else {
+    mensaje = null;
+  }
   res.render('auth/ingresar', {
     path: '/ingresar',
     titulo: 'Ingresar',
-    autenticado: false
+    autenticado: false,
+    mensajeError: mensaje
   });
 };
 
@@ -19,6 +25,7 @@ exports.postIngresar = (req, res, next) => {
   Usuario.findOne({ email: email })
     .then(usuario => {
       if (!usuario) {
+        req.flash('error', 'Invalido email o password');
         return res.redirect('/ingresar');
       }
       bcrypt
@@ -32,6 +39,7 @@ exports.postIngresar = (req, res, next) => {
               res.redirect('/');
             });
           }
+          req.flash('error', 'Invalido email o password');
           res.redirect('/ingresar');
         })
         .catch(err => {
@@ -43,10 +51,17 @@ exports.postIngresar = (req, res, next) => {
 };
 
 exports.getRegistrarse = (req, res, next) => {
+  let mensaje = req.flash('error');
+  if (mensaje.length > 0) {
+    mensaje = mensaje[0];
+  } else {
+    mensaje = null;
+  }
   res.render('auth/registrarse', {
     path: '/registrarse',
     titulo: 'Registrarse',
-    autenticado: false
+    autenticado: false,
+    mensajeError: mensaje
   });
 };
 
@@ -57,6 +72,7 @@ exports.postRegistrarse = (req, res, next) => {
   Usuario.findOne({ email: email })
     .then(usuarioDoc => {
       if (usuarioDoc) {
+        req.flash('error', 'El email ingresado ya existe');
         return res.redirect('/registrarse');
       }
       return bcrypt
