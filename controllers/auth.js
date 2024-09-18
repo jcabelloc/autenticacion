@@ -14,14 +14,30 @@ exports.getIngresar = (req, res, next) => {
 
 
 exports.postIngresar = (req, res, next) => {
-  Usuario.findById('66e8e9ae442a15f1a5280dad')
+  const email = req.body.email;
+  const password = req.body.password;
+  Usuario.findOne({ email: email })
     .then(usuario => {
-      req.session.autenticado = true;
-      req.session.usuario = usuario;
-      req.session.save(err => {
-        console.log(err);
-        res.redirect('/');
-      });
+      if (!usuario) {
+        return res.redirect('/ingresar');
+      }
+      bcrypt
+        .compare(password, usuario.password)
+        .then(hayCoincidencia => {
+          if (hayCoincidencia) {
+            req.session.autenticado = true;
+            req.session.usuario = usuario;
+            return req.session.save(err => {
+              console.log(err);
+              res.redirect('/');
+            });
+          }
+          res.redirect('/ingresar');
+        })
+        .catch(err => {
+          console.log(err);
+          res.redirect('/ingresar');
+        });
     })
     .catch(err => console.log(err));
 };
