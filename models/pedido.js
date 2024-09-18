@@ -10,7 +10,7 @@ const pedidoSchema = new Schema({
     }
   ],
   usuario: {
-    nombre: {
+    email: {
       type: String,
       required: true
     },

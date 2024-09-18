@@ -5,7 +5,6 @@ exports.getCrearProducto = (req, res, next) => {
     titulo: 'Crear Producto',
     path: '/admin/crear-producto',
     modoEdicion: false,
-    autenticado: req.session.autenticado
   });
 };
 
@@ -44,7 +43,6 @@ exports.getEditarProducto = (req, res, next) => {
         path: '/admin/edit-producto',
         modoEdicion: true,
         producto: producto,
-        autenticado: req.session.autenticado
       });
     })
   .catch(err => console.log(err));
@@ -83,7 +81,6 @@ exports.getProductos = (req, res, next) => {
         prods: productos,
         titulo: 'Admin Productos',
         path: '/admin/productos',
-        autenticado: req.session.autenticado
       });
     })
     .catch(err => console.log(err));

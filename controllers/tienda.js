@@ -9,7 +9,6 @@ exports.getProductos = (req, res, next) => {
         prods: productos,
         titulo: 'Todos los Productos',
         path: '/productos',
-        autenticado: req.session.autenticado
       });
     })
   .catch(err => {
@@ -25,7 +24,6 @@ exports.getProducto = (req, res, next) => {
         producto: producto,
         titulo: producto.nombre,
         path: '/productos',
-        autenticado: req.session.autenticado
       });
     })
     .catch(err => console.log(err));
@@ -39,7 +37,6 @@ exports.getIndex = (req, res, next) => {
       prods: productos,
       titulo: 'Tienda',
       path: '/',
-      autenticado: req.session.autenticado
     });
   })
   .catch(err => {
@@ -56,7 +53,6 @@ exports.getCarrito = (req, res, next) => {
         path: '/carrito',
         titulo: 'Mi Carrito',
         productos: productos,
-        autenticado: req.session.autenticado
       });
     })
     .catch(err => console.log(err));
@@ -92,7 +88,7 @@ exports.postPedido = (req, res, next) => {
       });
       const pedido = new Pedido({
         usuario: {
-          nombre: req.usuario.nombre,
+          email: req.usuario.email,
           idUsuario: req.usuario
         },
         productos: productos
@@ -116,7 +112,6 @@ exports.getPedidos = (req, res, next) => {
         path: '/pedidos',
         titulo: 'Mis Pedidos',
         pedidos: pedidos,
-        autenticado: req.session.autenticado
       });
     })
     .catch(err => console.log(err));
